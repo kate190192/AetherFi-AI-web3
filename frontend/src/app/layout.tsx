@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n";
+import { ThemeProvider } from "@/lib/theme";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,12 +27,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh" className="dark">
+    <html lang="zh" className="dark" suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content="#020617" />
+      </head>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} antialiased bg-slate-950 text-slate-200 font-sans`}
+        className={`${inter.variable} ${spaceGrotesk.variable} antialiased font-sans`}
         style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}
       >
-        <I18nProvider>{children}</I18nProvider>
+        <ThemeProvider>
+          <I18nProvider>{children}</I18nProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
