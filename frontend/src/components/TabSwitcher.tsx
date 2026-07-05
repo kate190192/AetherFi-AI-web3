@@ -32,15 +32,15 @@ const TabSwitcher: React.FC<TabSwitcherProps> = ({ activeTab, onTabChange }) => 
   const { t } = useI18n();
 
   return (
-    <div className="flex border-b border-slate-700/30 bg-slate-900/50 backdrop-blur-sm">
+    <div className="flex border-b border-divider bg-card-inner backdrop-blur-sm">
       {tabKeys.map((key) => (
         <button
           key={key}
           onClick={() => onTabChange(key)}
-          className={`flex items-center gap-1.5 px-3 py-2.5 text-[11px] font-medium transition-all relative flex-1 justify-center ${
+          className={`flex items-center gap-1.5 px-3 py-2.5 text-[12px] font-medium transition-all relative flex-1 justify-center ${
             activeTab === key
-              ? 'text-cyan-400'
-              : 'text-slate-500 hover:text-slate-300'
+              ? 't-cyan'
+              : 't-label hover:t-primary'
           }`}
         >
           {tabIcons[key]}
