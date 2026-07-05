@@ -191,16 +191,16 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose, riskProf
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed right-0 top-0 h-full w-full max-w-md bg-slate-950 border-l border-slate-800 z-[70] overflow-y-auto"
+            className="fixed right-0 top-0 h-full w-full max-w-md bg-card border-l border-card z-[70] overflow-y-auto"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 sticky top-0 bg-slate-950 z-10">
-              <h2 className="text-base font-semibold text-slate-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-card sticky top-0 bg-card z-10">
+              <h2 className="text-base font-semibold t-primary">
                 {t.settings.title}
               </h2>
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-200 hover:bg-slate-800/50 transition-colors"
+                className="w-8 h-8 rounded-lg flex items-center justify-center t-muted hover:t-primary hover:bg-card-inner transition-colors"
               >
                 <X size={18} />
               </button>
@@ -209,7 +209,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose, riskProf
             <div className="p-6 space-y-6">
               {/* Risk Profile Section */}
               <div>
-                <label className="text-xs font-medium text-slate-400 mb-3 flex items-center gap-1.5">
+                <label className="text-xs font-medium t-label mb-3 flex items-center gap-1.5">
                   <Target size={12} />
                   {t.settings.riskProfile}
                 </label>
@@ -227,7 +227,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose, riskProf
                     };
                     const colorClass = isActive
                       ? colorMap[option.color]
-                      : 'border-slate-700/40 text-slate-400 bg-slate-800/20 hover:bg-slate-800/50';
+                      : 'border-divider t-label bg-card-inner';
                     return (
                       <button
                         key={option.value}
@@ -244,7 +244,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose, riskProf
 
               {/* Language Section */}
               <div>
-                <label className="text-xs font-medium text-slate-400 mb-3 flex items-center gap-1.5">
+                <label className="text-xs font-medium t-label mb-3 flex items-center gap-1.5">
                   <Globe size={12} />
                   {t.settings.language}
                 </label>
@@ -258,7 +258,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose, riskProf
                         className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
                           isActive
                             ? 'border-cyan-500/40 bg-cyan-500/10 text-cyan-400'
-                            : 'border-slate-700/40 text-slate-400 bg-slate-800/20 hover:bg-slate-800/50'
+                            : 'border-divider t-label bg-card-inner'
                         }`}
                       >
                         <span className="text-lg">{l.flag}</span>
@@ -274,7 +274,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose, riskProf
               <div>
                 <button
                   onClick={() => setDataSourceExpanded(!dataSourceExpanded)}
-                  className="w-full flex items-center justify-between text-xs font-medium text-slate-400 mb-3 hover:text-slate-200 transition-colors"
+                  className="w-full flex items-center justify-between text-xs font-medium t-label mb-3 hover:t-primary transition-colors"
                 >
                   <span className="flex items-center gap-1.5">
                     <Database size={12} />
@@ -318,7 +318,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose, riskProf
                                 className={`text-left p-2 rounded-lg border text-xs transition-all ${
                                   isActive
                                     ? 'border-cyan-500/40 bg-cyan-500/10 text-cyan-400'
-                                    : 'border-slate-700/40 text-slate-400 bg-slate-800/20 hover:bg-slate-800/50'
+                                    : 'border-divider t-label bg-card-inner'
                                 }`}
                               >
                                 <div className="font-medium">{p.name}</div>
@@ -330,17 +330,17 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose, riskProf
 
                         {/* CoinGecko Config */}
                         {(dataSourceConfig.provider === 'coingecko' || dataSourceConfig.provider === 'coingecko_binance') && (
-                          <div className="space-y-2 pt-2 border-t border-slate-700/30">
-                            <div className="text-[10px] text-slate-500 font-medium">CoinGecko</div>
+                          <div className="space-y-2 pt-2 border-t border-divider">
+                            <div className="text-[10px] t-muted font-medium">CoinGecko</div>
                             <div>
-                              <label className="text-[10px] text-slate-500 block mb-1">
+                              <label className="text-[10px] t-muted block mb-1">
                                 {lang === 'zh' ? 'API 地址' : 'API URL'}
                               </label>
                               <input
                                 type="text"
                                 value={dataSourceConfig.coingecko_base_url}
                                 onChange={(e) => setDataSourceConfig({ ...dataSourceConfig, coingecko_base_url: e.target.value })}
-                                className="w-full px-2.5 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50 text-xs text-slate-200 focus:outline-none focus:border-cyan-500/50 font-mono"
+                                className="w-full px-2.5 py-1.5 rounded-lg bg-card-inner border border-divider text-xs t-primary focus:outline-none focus:border-cyan-500/50 font-mono"
                                 placeholder="https://api.coingecko.com/api/v3"
                               />
                             </div>
@@ -612,7 +612,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose, riskProf
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <Zap size={14} className="text-emerald-400" />
-                        <span className="text-xs font-medium text-slate-200">
+                      <span className="text-xs font-medium t-primary">
                           {lang === 'zh' ? '模拟模式（当前）' : 'Simulated Mode (Current)'}
                         </span>
                       </div>

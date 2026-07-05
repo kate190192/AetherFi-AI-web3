@@ -56,25 +56,25 @@ const PortfolioHoldings: React.FC<PortfolioHoldingsProps> = ({ allocation, capit
       {/* 总览卡片 */}
       <div className="grid grid-cols-3 gap-3">
         <div className="glass-card-inner p-3">
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
+          <div className="flex items-center gap-1.5 text-xs t-label mb-1">
             <Wallet size={12} />
             投入资金
           </div>
-          <div className="text-sm font-bold text-slate-200 font-mono">
+          <div className="text-sm font-bold t-primary font-mono">
             ${totalInvested.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
         </div>
         <div className="glass-card-inner p-3">
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
+          <div className="flex items-center gap-1.5 text-xs t-label mb-1">
             <BarChart3 size={12} />
             当前市值
           </div>
-          <div className="text-sm font-bold text-slate-200 font-mono">
+          <div className="text-sm font-bold t-primary font-mono">
             ${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
         </div>
         <div className="glass-card-inner p-3">
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
+          <div className="flex items-center gap-1.5 text-xs t-label mb-1">
             <DollarSign size={12} />
             模拟盈亏
           </div>
@@ -88,10 +88,10 @@ const PortfolioHoldings: React.FC<PortfolioHoldingsProps> = ({ allocation, capit
       </div>
 
       {/* 持仓明细 */}
-      <div className="overflow-hidden rounded-lg border border-slate-700/30">
+      <div className="overflow-hidden rounded-lg border border-divider">
         <table className="w-full text-xs">
           <thead>
-            <tr className="bg-slate-800/50 text-slate-400">
+            <tr className="bg-card-inner t-label">
               <th className="text-left px-3 py-2 font-medium">资产</th>
               <th className="text-right px-3 py-2 font-medium">配置</th>
               <th className="text-right px-3 py-2 font-medium">金额</th>
@@ -106,20 +106,21 @@ const PortfolioHoldings: React.FC<PortfolioHoldingsProps> = ({ allocation, capit
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="border-t border-slate-700/20 hover:bg-slate-800/30"
+                className="border-t border-divider"
+                style={{ background: 'var(--bg-btn-hover)' }}
               >
                 <td className="px-3 py-2.5">
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-[10px] font-bold text-cyan-400">
                       {h.symbol.slice(0, 2)}
                     </div>
-                    <span className="text-slate-200 font-medium">{h.symbol}</span>
+                    <span className="t-primary font-medium">{h.symbol}</span>
                   </div>
                 </td>
-                <td className="text-right px-3 py-2.5 text-slate-300 font-mono">
+                <td className="text-right px-3 py-2.5 t-secondary font-mono">
                   {h.percentage.toFixed(1)}%
                 </td>
-                <td className="text-right px-3 py-2.5 text-slate-200 font-mono">
+                <td className="text-right px-3 py-2.5 t-primary font-mono">
                   ${h.amount.toFixed(2)}
                 </td>
                 <td className="text-right px-3 py-2.5">
@@ -144,7 +145,7 @@ const PortfolioHoldings: React.FC<PortfolioHoldingsProps> = ({ allocation, capit
       {/* 年化预期 */}
       <div className="glass-card-inner p-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs text-slate-400">加权平均年化预期</span>
+          <span className="text-xs t-label">加权平均年化预期</span>
           <span className="text-xs font-bold text-emerald-400 font-mono">
             {(() => {
               let weightedReturn = 0;

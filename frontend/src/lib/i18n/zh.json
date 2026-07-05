@@ -191,6 +191,13 @@
   "ticker": {
     "refresh": "刷新"
   },
+  "tabs": {
+    "results": "结果",
+    "performance": "表现",
+    "journal": "日记",
+    "review": "复盘",
+    "market": "市场"
+  },
   "marketOverview": {
     "title": "市场概览",
     "loading": "加载市场数据中...",

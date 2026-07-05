@@ -191,6 +191,13 @@
   "ticker": {
     "refresh": "Refresh"
   },
+  "tabs": {
+    "results": "Results",
+    "performance": "Performance",
+    "journal": "Journal",
+    "review": "Review",
+    "market": "Market"
+  },
   "marketOverview": {
     "title": "Market Overview",
     "loading": "Loading market data...",

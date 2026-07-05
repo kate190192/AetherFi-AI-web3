@@ -73,7 +73,7 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
       case 'bearish':
         return <TrendingDown size={16} className="text-rose-400" />;
       default:
-        return <Minus size={16} className="text-slate-400" />;
+        return <Minus size={16} className="t-label" />;
     }
   };
 
@@ -121,8 +121,8 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
       default:
         return {
           icon: <Zap size={20} />,
-          color: 'text-slate-400',
-          bg: 'bg-slate-500/10 border-slate-500/20',
+          color: 't-label',
+          bg: 'bg-tag border-divider',
           label: t.actions.action,
         };
     }
@@ -135,7 +135,7 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
       case 'medium':
         return { color: 'text-amber-400', label: t.actions.medium };
       default:
-        return { color: 'text-slate-400', label: t.actions.low };
+        return { color: 't-label', label: t.actions.low };
     }
   };
 
@@ -160,13 +160,13 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Zap size={16} className="text-cyan-400" />
-          <h3 className="text-sm font-medium text-slate-200">{t.actionSuggestions.title}</h3>
+          <h3 className="text-sm font-medium t-primary">{t.actionSuggestions.title}</h3>
         </div>
         <div className="flex items-center gap-3">
           {suggestions && (
-            <div className="flex items-center gap-1.5 px-2 py-1 rounded-full text-xs bg-slate-700/50">
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-full text-xs bg-card-inner">
               {getTrendIcon(suggestions.overall_market_trend)}
-              <span className="text-slate-400">{getTrendText(suggestions.overall_market_trend)}</span>
+              <span className="t-label">{getTrendText(suggestions.overall_market_trend)}</span>
             </div>
           )}
           <button
@@ -175,9 +175,10 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
               fetchSuggestions();
             }}
             disabled={refreshing}
-            className="p-1.5 rounded-lg hover:bg-slate-700/50 transition-colors disabled:opacity-50"
+            className="p-1.5 rounded-lg transition-colors disabled:opacity-50"
+            style={{ background: 'var(--bg-btn-hover)' }}
           >
-            <RefreshCw size={14} className={`text-slate-500 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw size={14} className={`t-muted ${refreshing ? 'animate-spin' : ''}`} />
           </button>
         </div>
       </div>
@@ -189,13 +190,13 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
               animate={{ opacity: [0.3, 0.6, 0.3] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
             >
-              <Zap size={24} className="text-slate-500" />
+              <Zap size={24} className="t-muted" />
             </motion.div>
-            <p className="text-xs text-slate-400 mt-2">{t.actionSuggestions.loading}</p>
+            <p className="text-xs t-label mt-2">{t.actionSuggestions.loading}</p>
           </div>
         ) : error ? (
           <div className="text-center py-4">
-            <p className="text-xs text-slate-400">{error}</p>
+            <p className="text-xs t-label">{error}</p>
           </div>
         ) : suggestions && suggestions.suggestions.length > 0 ? (
           <div className="space-y-2">
@@ -218,14 +219,14 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-slate-200 truncate">{suggestion.name}</span>
-                        <span className="text-xs text-slate-500 font-mono">({suggestion.symbol})</span>
+                        <span className="text-sm font-medium t-primary truncate">{suggestion.name}</span>
+                        <span className="text-xs t-muted font-mono">({suggestion.symbol})</span>
                         <span className={`text-xs ${priority.color}`}>{priority.label}</span>
                       </div>
-                      <div className="text-xs text-slate-500 mt-0.5 truncate">{suggestion.reason}</div>
+                      <div className="text-xs t-muted mt-0.5 truncate">{suggestion.reason}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-medium text-slate-200">
+                      <div className="text-sm font-medium t-primary">
                         {formatPrice(suggestion.price)}
                       </div>
                       {suggestion.change_1h !== undefined && (
@@ -241,25 +242,25 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
           </div>
         ) : (
           <div className="text-center py-6">
-            <Zap size={24} className="text-slate-500 mx-auto mb-2" />
-            <p className="text-xs text-slate-400">{t.actionSuggestions.noSuggestions}</p>
+            <Zap size={24} className="t-muted mx-auto mb-2" />
+            <p className="text-xs t-label">{t.actionSuggestions.noSuggestions}</p>
           </div>
         )}
       </AnimatePresence>
 
       {suggestions && (suggestions.trending_up.length > 0 || suggestions.trending_down.length > 0) && (
-        <div className="mt-4 pt-4 border-t border-slate-700/30">
+        <div className="mt-4 pt-4 border-t border-divider">
           <div className="grid grid-cols-2 gap-3">
             {suggestions.trending_up.length > 0 && (
               <div>
                 <div className="flex items-center gap-1.5 mb-2">
                   <TrendingUp size={12} className="text-emerald-400" />
-                  <span className="text-xs text-slate-400">{t.actionSuggestions.trendingUp}</span>
+                  <span className="t-label">{t.actionSuggestions.trendingUp}</span>
                 </div>
                 <div className="space-y-1">
                   {suggestions.trending_up.slice(0, 3).map(coin => (
                     <div key={coin.symbol} className="flex items-center justify-between text-xs">
-                      <span className="text-slate-400">{coin.symbol}</span>
+                      <span className="t-label">{coin.symbol}</span>
                       <span className="text-emerald-400">+{coin.change.toFixed(2)}%</span>
                     </div>
                   ))}
@@ -270,12 +271,12 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
               <div>
                 <div className="flex items-center gap-1.5 mb-2">
                   <TrendingDown size={12} className="text-rose-400" />
-                  <span className="text-xs text-slate-400">{t.actionSuggestions.trendingDown}</span>
+                  <span className="t-label">{t.actionSuggestions.trendingDown}</span>
                 </div>
                 <div className="space-y-1">
                   {suggestions.trending_down.slice(0, 3).map(coin => (
                     <div key={coin.symbol} className="flex items-center justify-between text-xs">
-                      <span className="text-slate-400">{coin.symbol}</span>
+                      <span className="t-label">{coin.symbol}</span>
                       <span className="text-rose-400">{coin.change.toFixed(2)}%</span>
                     </div>
                   ))}

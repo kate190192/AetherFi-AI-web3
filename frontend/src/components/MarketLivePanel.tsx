@@ -110,15 +110,15 @@ const MarketLivePanel: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between p-4 border-b border-slate-700/20">
+      <div className="flex items-center justify-between p-4 border-b border-divider">
         <div className="flex items-center gap-2">
           <Coins size={16} className="text-cyan-400" />
-          <span className="text-sm font-medium text-slate-200">{t.market.liveMarket}</span>
+          <span className="text-sm font-medium t-primary">{t.market.liveMarket}</span>
         </div>
         <button
           onClick={fetchData}
           disabled={refreshing}
-          className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-800/50 text-slate-400 text-xs hover:text-cyan-400 transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-card-inner t-label text-xs hover:text-cyan-400 transition-colors disabled:opacity-50"
         >
           <RefreshCw size={12} className={refreshing ? 'animate-spin' : ''} />
           {t.market.refresh}
@@ -133,9 +133,9 @@ const MarketLivePanel: React.FC = () => {
                 animate={{ opacity: [0.3, 0.6, 0.3] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}
               >
-                <Coins size={32} className="text-slate-600" />
+                <Coins size={32} className="t-faint" />
               </motion.div>
-              <p className="text-xs text-slate-500 mt-3">{t.market.loading}</p>
+              <p className="text-xs t-muted mt-3">{t.market.loading}</p>
             </div>
           ) : (
             <>
@@ -147,19 +147,19 @@ const MarketLivePanel: React.FC = () => {
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <BarChart2 size={14} className="text-purple-400" />
-                    <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                    <span className="text-xs font-medium t-label uppercase tracking-wider">
                       {t.market.overview}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="glass-card-inner p-3">
-                      <div className="text-xs text-slate-500 mb-1">{t.market.totalCap}</div>
-                      <div className="text-sm font-semibold text-slate-200">
+                      <div className="text-xs t-muted mb-1">{t.market.totalCap}</div>
+                      <div className="text-sm font-semibold t-primary">
                         {formatNumber(overview.total_market_cap)}
                       </div>
                     </div>
                     <div className="glass-card-inner p-3">
-                      <div className="text-xs text-slate-500 mb-1">{t.market.btcDominance}</div>
+                      <div className="text-xs t-muted mb-1">{t.market.btcDominance}</div>
                       <div className="text-sm font-semibold text-amber-400">
                         {overview.btc_dominance.toFixed(1)}%
                       </div>
@@ -175,10 +175,10 @@ const MarketLivePanel: React.FC = () => {
                 className="glass-card p-4"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                  <span className="text-xs font-medium t-label uppercase tracking-wider">
                     {t.market.topCoins}
                   </span>
-                  <span className="flex items-center gap-1 text-xs text-slate-600">
+                  <span className="flex items-center gap-1 text-xs t-faint">
                     <Clock size={10} />
                     {lastUpdate}
                   </span>
@@ -192,19 +192,19 @@ const MarketLivePanel: React.FC = () => {
                       <motion.button
                         key={symbol}
                         onClick={() => setSelectedCoin(price)}
-                        className="w-full flex items-center justify-between p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/50 transition-colors text-left"
+                        className="w-full flex items-center justify-between p-3 rounded-lg bg-card-inner transition-colors text-left"
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center">
                             <span className="text-xs font-bold text-cyan-400">{symbol.slice(0, 2)}</span>
                           </div>
                           <div>
-                            <div className="text-sm font-medium text-slate-200">{price.name}</div>
-                            <div className="text-xs text-slate-500">{symbol}</div>
+                            <div className="text-sm font-medium t-primary">{price.name}</div>
+                            <div className="text-xs t-muted">{symbol}</div>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-sm font-semibold text-slate-200 font-mono">
+                          <div className="text-sm font-semibold t-primary font-mono">
                             {formatPrice(price.price)}
                           </div>
                           <div className={`flex items-center justify-end gap-0.5 text-xs ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
@@ -226,7 +226,7 @@ const MarketLivePanel: React.FC = () => {
               >
                 <div className="flex items-center gap-2 mb-3">
                   <TrendingUp size={14} className="text-emerald-400" />
-                  <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                  <span className="text-xs font-medium t-label uppercase tracking-wider">
                     {t.market.trending}
                   </span>
                 </div>
@@ -244,12 +244,15 @@ const MarketLivePanel: React.FC = () => {
                           volume_24h: 0,
                           market_cap: 0,
                         })}
-                        className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-slate-800/30 transition-colors text-left"
+                        className="w-full flex items-center gap-3 p-2 rounded-lg transition-colors text-left"
+                        style={{ background: 'var(--bg-card-inner)' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-btn-hover)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--bg-card-inner)')}
                       >
-                        <span className="text-xs font-mono text-slate-600 w-4">{idx + 1}</span>
+                        <span className="text-xs font-mono t-faint w-4">{idx + 1}</span>
                         <div>
-                          <div className="text-sm font-medium text-slate-200">{coin.name}</div>
-                          <div className="text-xs text-slate-500">{coin.symbol}</div>
+                          <div className="text-sm font-medium t-primary">{coin.name}</div>
+                          <div className="text-xs t-muted">{coin.symbol}</div>
                         </div>
                         <svg className="w-14 h-6" viewBox="0 0 60 24">
                           <path
@@ -262,7 +265,7 @@ const MarketLivePanel: React.FC = () => {
                           />
                         </svg>
                         <div className="text-right ml-auto">
-                          <div className="text-sm font-semibold text-slate-200 font-mono">
+                          <div className="text-sm font-semibold t-primary font-mono">
                             {formatPrice(coin.price)}
                           </div>
                           <div className={`text-xs ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
@@ -301,20 +304,20 @@ const MarketLivePanel: React.FC = () => {
                     <span className="text-sm font-bold text-cyan-400">{selectedCoin.symbol.slice(0, 2)}</span>
                   </div>
                   <div>
-                    <div className="text-lg font-semibold text-slate-200">{selectedCoin.name}</div>
-                    <div className="text-xs text-slate-500">{selectedCoin.symbol}</div>
+                    <div className="text-lg font-semibold t-primary">{selectedCoin.name}</div>
+                    <div className="text-xs t-muted">{selectedCoin.symbol}</div>
                   </div>
                 </div>
                 <button
                   onClick={() => setSelectedCoin(null)}
-                  className="w-8 h-8 rounded-lg bg-slate-800/50 flex items-center justify-center text-slate-400 hover:text-slate-200 transition-colors"
+                  className="w-8 h-8 rounded-lg bg-card-inner flex items-center justify-center t-label hover:t-primary transition-colors"
                 >
                   <X size={16} />
                 </button>
               </div>
 
               <div className="text-center mb-6">
-                <div className="text-3xl font-bold text-slate-200 font-mono mb-2">
+                <div className="text-3xl font-bold t-primary font-mono mb-2">
                   {formatPrice(selectedCoin.price)}
                 </div>
                 <div className={`flex items-center justify-center gap-1 text-lg ${
@@ -322,20 +325,20 @@ const MarketLivePanel: React.FC = () => {
                 }`}>
                   {selectedCoin.change_24h >= 0 ? <TrendingUp size={18} /> : <TrendingDown size={18} />}
                   {selectedCoin.change_24h >= 0 ? '+' : ''}{selectedCoin.change_24h.toFixed(2)}%
-                  <span className="text-slate-500 text-sm ml-1">24h</span>
+                  <span className="t-muted text-sm ml-1">24h</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="glass-card-inner p-3">
-                  <div className="text-xs text-slate-500 mb-1">{t.market.volume}</div>
-                  <div className="text-sm font-semibold text-slate-200">
+                  <div className="text-xs t-muted mb-1">{t.market.volume}</div>
+                  <div className="text-sm font-semibold t-primary">
                     {selectedCoin.volume_24h > 0 ? formatNumber(selectedCoin.volume_24h) : '--'}
                   </div>
                 </div>
                 <div className="glass-card-inner p-3">
-                  <div className="text-xs text-slate-500 mb-1">{t.market.marketCap}</div>
-                  <div className="text-sm font-semibold text-slate-200">
+                  <div className="text-xs t-muted mb-1">{t.market.marketCap}</div>
+                  <div className="text-sm font-semibold t-primary">
                     {selectedCoin.market_cap > 0 ? formatNumber(selectedCoin.market_cap) : '--'}
                   </div>
                 </div>

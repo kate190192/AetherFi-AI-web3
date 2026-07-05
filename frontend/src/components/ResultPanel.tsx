@@ -48,10 +48,10 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
           animate={{ opacity: [0.2, 0.5, 0.2] }}
           transition={{ repeat: Infinity, duration: 4 }}
         >
-          <Activity size={40} className="text-slate-600 mb-4" />
+          <Activity size={40} className="t-faint mb-4" />
         </motion.div>
-        <p className="text-sm text-slate-500">{t.result.waitingTitle}</p>
-        <p className="text-xs text-slate-600 mt-1">{t.result.waitingDesc}</p>
+        <p className="text-sm t-muted">{t.result.waitingTitle}</p>
+        <p className="text-xs t-faint mt-1">{t.result.waitingDesc}</p>
       </div>
     );
   }
@@ -114,10 +114,10 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
             className={`glass-card p-5 border ${actionConfig.bgColor}`}
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <span className="text-xs font-medium t-label uppercase tracking-wider">
                 {t.result.decisionTitle}
               </span>
-              <div className="flex items-center gap-1.5 text-xs text-slate-400">
+              <div className="flex items-center gap-1.5 text-xs t-label">
                 <BadgeCheck size={12} />
                 {t.result.aiVerified}
               </div>
@@ -134,9 +134,9 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
               </div>
 
               <div className="flex-1">
-                <div className="text-xs text-slate-500 mb-1">{t.result.confidence}</div>
+                <div className="text-xs t-muted mb-1">{t.result.confidence}</div>
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 h-2 rounded-full bg-slate-800">
+                  <div className="flex-1 h-2 rounded-full bg-card-inner">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${confidencePct}%` }}
@@ -164,7 +164,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
           >
             <div className="flex items-center gap-2 mb-4">
               <Activity size={14} className="text-cyan-400" />
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <span className="text-xs font-medium t-label uppercase tracking-wider">
                 {t.result.portfolioAllocation}
               </span>
             </div>
@@ -183,7 +183,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
           >
             <div className="flex items-center gap-2 mb-4">
               <TrendingUp size={14} className="text-emerald-400" />
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <span className="text-xs font-medium t-label uppercase tracking-wider">
                 持仓盈亏分析
               </span>
             </div>
@@ -201,7 +201,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
         >
           <div className="flex items-center gap-2 mb-4">
             <ShieldAlert size={14} className="text-amber-400" />
-            <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-medium t-label uppercase tracking-wider">
               {t.result.riskAssessment}
             </span>
           </div>
@@ -210,15 +210,15 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
           </div>
 
           {portfolio && (
-            <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-slate-700/20">
+            <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-divider">
               <div className="min-w-0">
-                <div className="text-xs text-slate-500">{t.result.projectedReturn}</div>
+                <div className="text-xs t-muted">{t.result.projectedReturn}</div>
                 <div className="text-sm font-semibold text-emerald-400 font-mono mt-0.5 truncate">
                   {portfolio.projected_return}
                 </div>
               </div>
               <div className="min-w-0">
-                <div className="text-xs text-slate-500">{t.result.riskLevel}</div>
+                <div className="text-xs t-muted">{t.result.riskLevel}</div>
                 <div className="text-sm font-semibold text-amber-400 mt-0.5 truncate">
                   {portfolio.risk_level}
                 </div>
@@ -238,11 +238,11 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
           >
             <div className="flex items-center gap-2 mb-3">
               <ExternalLink size={14} className="text-purple-400" />
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <span className="text-xs font-medium t-label uppercase tracking-wider">
                 Web3 模拟执行
               </span>
             </div>
-            <p className="text-xs text-slate-400 mb-3 leading-relaxed">
+            <p className="text-xs t-label mb-3 leading-relaxed">
               AI 已生成投资策略，确认后将执行 Web3 链上模拟交易（基于真实市场价格的模拟操作，不会产生真实交易）。
             </p>
             <button
@@ -275,7 +275,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
           >
             <div className="flex items-center gap-2 mb-4">
               <ExternalLink size={14} className="text-purple-400" />
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <span className="text-xs font-medium t-label uppercase tracking-wider">
                 交易执行模拟
               </span>
               <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400">
@@ -286,17 +286,17 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
             {/* 总览 */}
             <div className="grid grid-cols-3 gap-2 mb-4">
               <div className="glass-card-inner p-2.5 text-center">
-                <div className="text-[10px] text-slate-400 mb-1">总Gas费</div>
-                <div className="text-xs font-bold text-slate-200 font-mono">{simulation.gas_fee}</div>
+                <div className="text-[10px] t-label mb-1">总Gas费</div>
+                <div className="text-xs font-bold t-primary font-mono">{simulation.gas_fee}</div>
               </div>
               <div className="glass-card-inner p-2.5 text-center">
-                <div className="text-[10px] text-slate-400 mb-1">交易笔数</div>
-                <div className="text-xs font-bold text-slate-200 font-mono">
+                <div className="text-[10px] t-label mb-1">交易笔数</div>
+                <div className="text-xs font-bold t-primary font-mono">
                   {(web3Step?.data?.data?.transactions || []).length} 笔
                 </div>
               </div>
               <div className="glass-card-inner p-2.5 text-center">
-                <div className="text-[10px] text-slate-400 mb-1">执行链</div>
+                <div className="text-[10px] t-label mb-1">执行链</div>
                 <div className="text-xs font-bold text-cyan-400 font-mono">
                   {(web3Step?.data?.data?.chain || 'ethereum').toUpperCase()}
                 </div>
@@ -306,7 +306,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
             {/* 交易明细 */}
             {web3Step?.data?.data?.transactions && web3Step.data.data.transactions.length > 0 && (
               <div className="mb-4">
-                <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-2">交易明细</div>
+                <div className="text-[10px] t-label uppercase tracking-wider mb-2">交易明细</div>
                 <div className="space-y-2">
                   {web3Step.data.data.transactions.map((tx: any, i: number) => (
                     <motion.div
@@ -323,7 +323,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
                           }`}>
                             {tx.type === 'swap' ? 'B' : 'S'}
                           </div>
-                          <span className="text-xs font-medium text-slate-200">
+                          <span className="text-xs font-medium t-primary">
                             买入 {tx.to_token}
                           </span>
                         </div>
@@ -335,25 +335,25 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
                       </div>
                       <div className="grid grid-cols-2 gap-2 text-[11px]">
                         <div>
-                          <span className="text-slate-400">支付 </span>
-                          <span className="text-slate-200 font-mono">${tx.from_amount_usd?.toFixed(2)}</span>
-                          <span className="text-slate-400"> USDC</span>
-                        </div>
-                        <div>
-                          <span className="text-slate-400">获得 </span>
-                          <span className="text-emerald-400 font-mono">{tx.to_amount_token?.toFixed(6)}</span>
-                          <span className="text-slate-400"> {tx.to_token}</span>
-                        </div>
-                        <div>
-                          <span className="text-slate-400">价格 </span>
-                          <span className="text-slate-200 font-mono">${tx.price_at_execution?.toLocaleString()}</span>
-                        </div>
-                        <div>
-                          <span className="text-slate-400">Gas </span>
-                          <span className="text-slate-200 font-mono">${tx.gas_fee_usd}</span>
+                           <span className="t-label">支付 </span>
+                           <span className="t-primary font-mono">${tx.from_amount_usd?.toFixed(2)}</span>
+                           <span className="t-label"> USDC</span>
+                         </div>
+                         <div>
+                           <span className="t-label">获得 </span>
+                           <span className="text-emerald-400 font-mono">{tx.to_amount_token?.toFixed(6)}</span>
+                           <span className="t-label"> {tx.to_token}</span>
+                         </div>
+                         <div>
+                           <span className="t-label">价格 </span>
+                           <span className="t-primary font-mono">${tx.price_at_execution?.toLocaleString()}</span>
+                         </div>
+                         <div>
+                           <span className="t-label">Gas </span>
+                           <span className="t-primary font-mono">${tx.gas_fee_usd}</span>
                         </div>
                       </div>
-                      <div className="mt-2 pt-2 border-t border-slate-700/20 flex items-center gap-2 text-[10px] text-slate-500">
+                       <div className="mt-2 pt-2 border-t border-divider flex items-center gap-2 text-[10px] t-muted">
                         <Hash size={10} />
                         <span className="font-mono truncate">{tx.tx_hash}</span>
                         <span className="ml-auto">Block #{tx.block_number}</span>
@@ -367,17 +367,17 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
             {/* 持仓结果 */}
             {simulation.new_allocation && Object.keys(simulation.new_allocation).length > 0 && (
               <div className="mb-3">
-                <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-2">执行后持仓</div>
+                <div className="text-[10px] t-label uppercase tracking-wider mb-2">执行后持仓</div>
                 <div className="glass-card-inner p-3">
                   <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
                     {Object.entries(simulation.new_allocation).map(([key, val]) => {
                       const price = web3Step?.data?.data?.transactions?.find((t: any) => t.to_token === key)?.price_at_execution;
                       return (
                         <div key={key} className="flex justify-between text-xs">
-                          <span className="text-slate-400">{key}</span>
-                          <div className="text-right">
-                            <span className="text-slate-200 font-mono">{Number(val).toFixed(6)}</span>
-                            {price && <span className="text-slate-500 ml-1">(${(Number(val) * price).toFixed(2)})</span>}
+                           <span className="t-label">{key}</span>
+                           <div className="text-right">
+                             <span className="t-primary font-mono">{Number(val).toFixed(6)}</span>
+                             {price && <span className="t-muted ml-1">(${(Number(val) * price).toFixed(2)})</span>}
                           </div>
                         </div>
                       );
@@ -396,19 +396,19 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-[11px]">
                   <div>
-                    <span className="text-slate-400">协议 </span>
-                    <span className="text-slate-200">{web3Step.data.data.defi_yield.protocol}</span>
+                    <span className="t-label">协议 </span>
+                    <span className="t-primary">{web3Step.data.data.defi_yield.protocol}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400">APY </span>
+                    <span className="t-label">APY </span>
                     <span className="text-emerald-400 font-mono font-bold">{web3Step.data.data.defi_yield.apy}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400">存入价值 </span>
-                    <span className="text-slate-200 font-mono">${web3Step.data.data.defi_yield.total_deposit_value}</span>
+                    <span className="t-label">存入价值 </span>
+                    <span className="t-primary font-mono">${web3Step.data.data.defi_yield.total_deposit_value}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400">年化预期 </span>
+                    <span className="t-label">年化预期 </span>
                     <span className="text-emerald-400 font-mono">${web3Step.data.data.defi_yield.projected_annual_return}</span>
                   </div>
                 </div>
@@ -416,7 +416,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
             )}
 
             {/* 免责声明 */}
-            <div className="mt-3 text-[10px] text-slate-500 leading-relaxed">
+            <div className="mt-3 text-[10px] t-muted leading-relaxed">
               {web3Step?.data?.data?.warning || '模拟交易基于实时市场价格，不涉及真实区块链交互。'}
             </div>
           </motion.div>
@@ -433,7 +433,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
           >
             <div className="flex items-center gap-2 mb-4">
               <FileText size={14} className="text-blue-400" />
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <span className="text-xs font-medium t-label uppercase tracking-wider">
                 {t.result.aiReasoning}
               </span>
             </div>
@@ -450,7 +450,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ result, steps = [], onConfirm
                   <div className="w-6 h-6 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0 text-xs font-bold text-blue-400">
                     {i + 1}
                   </div>
-                  <p className="text-slate-300 leading-relaxed">{reason}</p>
+                  <p className="t-secondary leading-relaxed">{reason}</p>
                 </motion.div>
               ))}
             </div>

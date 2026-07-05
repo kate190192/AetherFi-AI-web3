@@ -24,8 +24,8 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
     const data = payload[0];
     return (
       <div className="glass-card-inner px-3 py-2 text-xs">
-        <p className="text-slate-200 font-medium">{data.name}</p>
-        <p className="text-slate-400">{data.payload.percent.toFixed(1)}%</p>
+        <p className="t-primary font-medium">{data.name}</p>
+        <p className="t-label">{data.payload.percent.toFixed(1)}%</p>
       </div>
     );
   }
@@ -43,7 +43,7 @@ const PortfolioChart: React.FC<PortfolioChartProps> = ({ allocation }) => {
 
   if (data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-[200px] text-slate-500 text-sm">
+      <div className="flex items-center justify-center h-[200px] t-muted text-sm">
         {t.result.noAllocation}
       </div>
     );
@@ -82,8 +82,8 @@ const PortfolioChart: React.FC<PortfolioChartProps> = ({ allocation }) => {
               className="w-2.5 h-2.5 rounded-sm shrink-0"
               style={{ backgroundColor: COLORS[index % COLORS.length] }}
             />
-            <span className="text-slate-400 truncate">{item.name}</span>
-            <span className="text-slate-200 font-medium ml-auto">{item.percent.toFixed(1)}%</span>
+            <span className="t-label truncate">{item.name}</span>
+            <span className="t-primary font-medium ml-auto">{item.percent.toFixed(1)}%</span>
           </div>
         ))}
       </div>

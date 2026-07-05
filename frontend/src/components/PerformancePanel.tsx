@@ -71,7 +71,7 @@ const PerformancePanel: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center h-full py-12">
         <Loader2 size={32} className="text-cyan-400 animate-spin" />
-        <p className="text-xs text-slate-400 mt-3">加载表现数据...</p>
+        <p className="text-xs t-label mt-3">加载表现数据...</p>
       </div>
     );
   }
@@ -90,10 +90,10 @@ const PerformancePanel: React.FC = () => {
   if (!data || data.total_recommendations === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full py-12">
-        <BarChart3 size={40} className="text-slate-500 mb-4" />
-        <p className="text-sm text-slate-400 text-center">
+        <BarChart3 size={40} className="t-muted mb-4" />
+        <p className="text-sm t-label text-center">
           还没有推荐记录<br />
-          <span className="text-xs text-slate-500">运行一次 Agent 分析后开始追踪</span>
+          <span className="text-xs t-muted">运行一次 Agent 分析后开始追踪</span>
         </p>
       </div>
     );
@@ -108,14 +108,14 @@ const PerformancePanel: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="glass-card-inner p-3"
         >
-          <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mb-1">
+          <div className="flex items-center gap-1.5 text-[10px] t-label mb-1">
             <Target size={10} />
             胜率
           </div>
           <div className={`text-xl font-bold font-mono ${data.win_rate >= 50 ? 'text-emerald-400' : 'text-rose-400'}`}>
             {data.win_rate}%
           </div>
-          <div className="text-[10px] text-slate-500 mt-0.5">
+          <div className="text-[10px] t-muted mt-0.5">
             {data.wins}胜 / {data.losses}负
           </div>
         </motion.div>
@@ -126,14 +126,14 @@ const PerformancePanel: React.FC = () => {
           transition={{ delay: 0.05 }}
           className="glass-card-inner p-3"
         >
-          <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mb-1">
+          <div className="flex items-center gap-1.5 text-[10px] t-label mb-1">
             <DollarSign size={10} />
             总盈亏
           </div>
           <div className={`text-xl font-bold font-mono ${data.total_pnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
             {data.total_pnl >= 0 ? '+' : ''}${data.total_pnl.toFixed(2)}
           </div>
-          <div className="text-[10px] text-slate-500 mt-0.5">
+          <div className="text-[10px] t-muted mt-0.5">
             平均 {data.avg_return >= 0 ? '+' : ''}{data.avg_return.toFixed(2)}%
           </div>
         </motion.div>
@@ -144,14 +144,14 @@ const PerformancePanel: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="glass-card-inner p-3"
         >
-          <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mb-1">
+          <div className="flex items-center gap-1.5 text-[10px] t-label mb-1">
             <Activity size={10} />
             总推荐
           </div>
-          <div className="text-xl font-bold font-mono text-slate-200">
+          <div className="text-xl font-bold font-mono t-primary">
             {data.total_recommendations}
           </div>
-          <div className="text-[10px] text-slate-500 mt-0.5">
+          <div className="text-[10px] t-muted mt-0.5">
             已追踪 {data.tracked} 笔
           </div>
         </motion.div>
@@ -162,15 +162,15 @@ const PerformancePanel: React.FC = () => {
           transition={{ delay: 0.15 }}
           className="glass-card-inner p-3"
         >
-          <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mb-1">
+          <div className="flex items-center gap-1.5 text-[10px] t-label mb-1">
             <RefreshCw size={10} />
             当前价格
           </div>
           <div className="space-y-0.5">
             {Object.entries(data.current_prices).slice(0, 3).map(([sym, price]) => (
               <div key={sym} className="flex justify-between text-[10px]">
-                <span className="text-slate-400">{sym}</span>
-                <span className="text-slate-200 font-mono">${price.toLocaleString()}</span>
+                <span className="t-label">{sym}</span>
+                <span className="t-primary font-mono">${price.toLocaleString()}</span>
               </div>
             ))}
           </div>
@@ -180,7 +180,7 @@ const PerformancePanel: React.FC = () => {
       {/* 推荐历史明细 */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] text-slate-400 uppercase tracking-wider">推荐历史</span>
+          <span className="text-[10px] t-label uppercase tracking-wider">推荐历史</span>
           <button
             onClick={fetchData}
             className="text-[10px] text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
@@ -213,8 +213,8 @@ const PerformancePanel: React.FC = () => {
                        rec.action.toUpperCase().includes('SELL') || rec.action.toUpperCase().includes('AVOID') ? 'S' : 'H'}
                     </div>
                     <div>
-                      <div className="text-xs text-slate-200 truncate max-w-[150px]">{rec.query}</div>
-                      <div className="text-[10px] text-slate-500">
+                      <div className="text-xs t-primary truncate max-w-[150px]">{rec.query}</div>
+                      <div className="text-[10px] t-muted">
                         {new Date(rec.created_at).toLocaleDateString()} · {rec.holding_days}天
                       </div>
                     </div>
@@ -240,14 +240,14 @@ const PerformancePanel: React.FC = () => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="border-t border-slate-700/20"
+                    className="border-t border-divider"
                   >
                     <div className="p-3 space-y-2">
                       {rec.details.map((d) => (
                         <div key={d.symbol} className="flex items-center justify-between text-[11px]">
                           <div className="flex items-center gap-2">
-                            <span className="text-slate-400">{d.symbol}</span>
-                            <span className="text-slate-500">
+                            <span className="t-label">{d.symbol}</span>
+                            <span className="t-muted">
                               ${d.entry_price.toLocaleString()} → ${d.current_price.toLocaleString()}
                             </span>
                           </div>
@@ -261,7 +261,7 @@ const PerformancePanel: React.FC = () => {
                           </div>
                         </div>
                       ))}
-                      <div className="pt-2 border-t border-slate-700/20 text-[10px] text-slate-500">
+                      <div className="pt-2 border-t border-divider text-[10px] t-muted">
                         投入 ${rec.capital.toLocaleString()} · 持有 {rec.holding_days} 天
                       </div>
                     </div>

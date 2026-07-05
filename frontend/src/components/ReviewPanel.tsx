@@ -122,9 +122,9 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-slate-700/20">
+      <div className="p-4 border-b border-divider">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-medium text-slate-300 uppercase tracking-wider">
+          <span className="text-xs font-medium t-secondary uppercase tracking-wider">
             {t.review.selectRun}
           </span>
         </div>
@@ -173,7 +173,7 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
               >
                 <Loader2 size={32} className="text-cyan-400" />
               </motion.div>
-              <p className="text-xs text-slate-400 mt-3">{t.review.analyzing}</p>
+              <p className="text-xs t-label mt-3">{t.review.analyzing}</p>
             </div>
           ) : analysis ? (
             <>
@@ -185,7 +185,7 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
               >
                 <div className="flex items-center gap-2 mb-4">
                   <Target size={14} className="text-cyan-400" />
-                  <span className="text-xs font-medium text-slate-300 uppercase tracking-wider">
+                  <span className="text-xs font-medium t-secondary uppercase tracking-wider">
                     {t.review.accuracy}
                   </span>
                 </div>
@@ -196,7 +196,7 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
                         {Math.round(getAccuracy(analysis))}%
                       </span>
                     </div>
-                    <div className="text-xs text-slate-400 mt-1">
+                    <div className="text-xs t-label mt-1">
                       {getAccuracy(analysis) >= 80 ? t.review.highAccuracy : 
                        getAccuracy(analysis) >= 50 ? t.review.mediumAccuracy : t.review.lowAccuracy}
                     </div>
@@ -225,7 +225,7 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-xs font-bold text-slate-300">ACC</span>
+                      <span className="text-xs font-bold t-secondary">ACC</span>
                     </div>
                   </div>
                 </div>
@@ -240,7 +240,7 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
               >
                 <div className="flex items-center gap-2 mb-4">
                   <BarChart3 size={14} className="text-purple-400" />
-                  <span className="text-xs font-medium text-slate-300 uppercase tracking-wider">
+                  <span className="text-xs font-medium t-secondary uppercase tracking-wider">
                     {t.review.differences}
                   </span>
                 </div>
@@ -254,7 +254,7 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
                       className="glass-card-inner p-3"
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-slate-200">{diff.metric}</span>
+                        <span className="text-sm font-medium t-primary">{diff.metric}</span>
                         <div className={`flex items-center gap-1 text-xs ${
                           diff.deviation >= 0 ? 'text-rose-400' : 'text-emerald-400'
                         }`}>
@@ -264,12 +264,12 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
                       </div>
                       <div className="flex items-center gap-4 text-xs">
                         <div>
-                          <span className="text-slate-400">{t.review.simulated}</span>
-                          <span className="text-slate-200 ml-2 font-mono">{diff.simulated.toFixed(2)}</span>
+                          <span className="t-label">{t.review.simulated}</span>
+                          <span className="t-primary ml-2 font-mono">{diff.simulated.toFixed(2)}</span>
                         </div>
-                        <div className="w-px h-4 bg-slate-700" />
+                        <div className="w-px h-4 border-divider" />
                         <div>
-                          <span className="text-slate-400">{t.review.actual}</span>
+                          <span className="t-label">{t.review.actual}</span>
                           <span className="text-cyan-400 ml-2 font-mono">{diff.actual.toFixed(2)}</span>
                         </div>
                       </div>
@@ -287,7 +287,7 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
               >
                 <div className="flex items-center gap-2 mb-4">
                   <Lightbulb size={14} className="text-amber-400" />
-                  <span className="text-xs font-medium text-slate-300 uppercase tracking-wider">
+                  <span className="text-xs font-medium t-secondary uppercase tracking-wider">
                     {t.review.recommendations}
                   </span>
                 </div>
@@ -295,7 +295,7 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
                   {analysis.recommendations.map((rec, idx) => (
                     <div key={idx} className="flex items-start gap-3">
                       <ChevronRight size={14} className="text-amber-400 mt-0.5 shrink-0" />
-                      <p className="text-sm text-slate-300">{rec}</p>
+                      <p className="text-sm t-secondary">{rec}</p>
                     </div>
                   ))}
                 </div>
@@ -310,7 +310,7 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
               >
                 <div className="flex items-center gap-2 mb-3">
                   <RotateCcw size={14} className="text-blue-400" />
-                  <span className="text-xs font-medium text-slate-300 uppercase tracking-wider">
+                  <span className="text-xs font-medium t-secondary uppercase tracking-wider">
                     {t.review.createIteration}
                   </span>
                 </div>
@@ -336,8 +336,8 @@ const ReviewPanel: React.FC<ReviewPanelProps> = ({ runId }) => {
             </>
           ) : (
             <div className="flex flex-col items-center justify-center py-12">
-              <BarChart3 size={40} className="text-slate-500 mb-4" />
-              <p className="text-sm text-slate-400 text-center">
+              <BarChart3 size={40} className="t-muted mb-4" />
+              <p className="text-sm t-label text-center">
                 {t.review.selectAndAnalyze}
               </p>
             </div>

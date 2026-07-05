@@ -442,7 +442,10 @@ function MiniMarketDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${API_BASE}/market/dashboard`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        const res = await fetch(`${API_BASE}/market/dashboard`, { signal: controller.signal });
+        clearTimeout(timeoutId);
         if (res.ok) {
           const d = await res.json();
           setData(d);

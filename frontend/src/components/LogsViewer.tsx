@@ -124,7 +124,7 @@ const LogsViewer: React.FC = () => {
       case 'review':
         return { icon: Info, color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20' };
       default:
-        return { icon: Info, color: 'text-slate-400', bg: 'bg-slate-500/10 border-slate-500/20' };
+        return { icon: Info, color: 't-label', bg: 'bg-tag border-divider' };
     }
   };
 
@@ -144,7 +144,7 @@ const LogsViewer: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex border-b border-slate-700/30">
+      <div className="flex border-b border-divider">
         {tabs.map((tab) => (
           <button
             key={tab.key}
@@ -152,7 +152,7 @@ const LogsViewer: React.FC = () => {
             className={`flex items-center gap-2 px-4 py-3 text-xs font-medium transition-colors relative ${
               activeTab === tab.key
                 ? 'text-cyan-400'
-                : 'text-slate-500 hover:text-slate-300'
+                : 't-muted hover:t-secondary'
             }`}
           >
             {tab.icon}
@@ -168,10 +168,10 @@ const LogsViewer: React.FC = () => {
         ))}
       </div>
 
-      <div className="p-4 border-b border-slate-700/20">
+      <div className="p-4 border-b border-divider">
         {activeTab === 'byDate' && (
           <div className="flex items-center gap-2">
-            <Calendar size={14} className="text-slate-500" />
+            <Calendar size={14} className="t-muted" />
             <input
               type="date"
               value={selectedDate}
@@ -182,7 +182,7 @@ const LogsViewer: React.FC = () => {
         )}
         {activeTab === 'search' && (
           <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 t-muted" />
             <input
               type="text"
               placeholder={t.logs.searchPlaceholder}
@@ -202,19 +202,19 @@ const LogsViewer: React.FC = () => {
                 animate={{ opacity: [0.3, 0.6, 0.3] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}
               >
-                <Clock size={32} className="text-slate-600" />
+                <Clock size={32} className="t-faint" />
               </motion.div>
-              <p className="text-xs text-slate-500 mt-3">{t.logs.loading}</p>
+              <p className="text-xs t-muted mt-3">{t.logs.loading}</p>
             </div>
           ) : error ? (
             <div className="glass-card p-4 text-center">
               <AlertCircle size={24} className="text-rose-400 mx-auto mb-2" />
-              <p className="text-sm text-slate-400">{error}</p>
+              <p className="text-sm t-label">{error}</p>
             </div>
           ) : logs.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12">
-              <Info size={32} className="text-slate-600 mb-2" />
-              <p className="text-xs text-slate-500">{t.logs.noLogs}</p>
+              <Info size={32} className="t-faint mb-2" />
+              <p className="text-xs t-muted">{t.logs.noLogs}</p>
             </div>
           ) : (
             logs.map((log, index) => {
@@ -240,8 +240,8 @@ const LogsViewer: React.FC = () => {
                         {getOperationIcon(log.operation_type)}
                       </div>
                       <div>
-                        <div className="text-sm font-medium text-slate-200">{getOperationLabel(log.operation_type)}</div>
-                        <div className="flex items-center gap-3 mt-0.5 text-xs text-slate-500">
+                        <div className="text-sm font-medium t-primary">{getOperationLabel(log.operation_type)}</div>
+                        <div className="flex items-center gap-3 mt-0.5 text-xs t-muted">
                           <span className="flex items-center gap-1">
                             <User size={10} />
                             {log.user_id}
@@ -254,13 +254,13 @@ const LogsViewer: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs text-slate-500 font-mono">
+                      <span className="text-xs t-muted font-mono">
                         {new Date(log.timestamp).toLocaleString()}
                       </span>
                       {isExpanded ? (
-                        <ChevronUp size={16} className="text-slate-400" />
+                        <ChevronUp size={16} className="t-label" />
                       ) : (
-                        <ChevronDown size={16} className="text-slate-400" />
+                        <ChevronDown size={16} className="t-label" />
                       )}
                     </div>
                   </div>
@@ -275,14 +275,14 @@ const LogsViewer: React.FC = () => {
                       >
                         <div className="px-4 pb-4 pt-0">
                           <div className="glass-card-inner p-3 mt-2">
-                            <div className="text-xs text-slate-500 mb-2">Input Data</div>
-                            <pre className="text-xs text-slate-300 font-mono whitespace-pre-wrap max-h-32 overflow-auto">
+                            <div className="text-xs t-muted mb-2">Input Data</div>
+                            <pre className="text-xs t-secondary font-mono whitespace-pre-wrap max-h-32 overflow-auto">
                               {JSON.stringify(log.data, null, 2)}
                             </pre>
                           </div>
                           <div className="glass-card-inner p-3 mt-2">
-                            <div className="text-xs text-slate-500 mb-2">Result</div>
-                            <pre className="text-xs text-slate-300 font-mono whitespace-pre-wrap max-h-32 overflow-auto">
+                            <div className="text-xs t-muted mb-2">Result</div>
+                            <pre className="text-xs t-secondary font-mono whitespace-pre-wrap max-h-32 overflow-auto">
                               {JSON.stringify(log.result, null, 2)}
                             </pre>
                           </div>

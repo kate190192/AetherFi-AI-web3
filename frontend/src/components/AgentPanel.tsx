@@ -98,7 +98,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
       case 'error':
         return 'border-rose-500/30 bg-rose-500/5';
       default:
-        return 'border-slate-700/30 bg-slate-800/20';
+        return 'border-divider bg-card-inner';
     }
   };
 
@@ -146,14 +146,14 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
         return (
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-xs">
-              <Tag size={12} className="text-slate-500" />
-              <span className="text-slate-400">Query Type:</span>
-              <span className="text-slate-200 font-medium">{data.query_type || 'general'}</span>
+              <Tag size={12} className="t-muted" />
+              <span className="t-label">Query Type:</span>
+              <span className="t-primary font-medium">{data.query_type || 'general'}</span>
             </div>
             {data.symbols && data.symbols.length > 0 && (
               <div className="flex items-center gap-2 text-xs">
-                <Target size={12} className="text-slate-500" />
-                <span className="text-slate-400">Target Assets:</span>
+                <Target size={12} className="t-muted" />
+                <span className="t-label">Target Assets:</span>
                 <div className="flex flex-wrap gap-1">
                   {data.symbols.map((s: string) => (
                     <span key={s} className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400 text-xs">
@@ -165,9 +165,9 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
             )}
             {data.capital_from_query && (
               <div className="flex items-center gap-2 text-xs">
-                <DollarSign size={12} className="text-slate-500" />
-                <span className="text-slate-400">Detected Capital:</span>
-                <span className="text-slate-200 font-medium font-mono">${data.capital_from_query}</span>
+                <DollarSign size={12} className="t-muted" />
+                <span className="t-label">Detected Capital:</span>
+                <span className="t-primary font-medium font-mono">${data.capital_from_query}</span>
               </div>
             )}
           </div>
@@ -180,25 +180,25 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
             {Object.entries(marketData).map(([symbol, info]: [string, any]) => (
               <div key={symbol} className="glass-card-inner p-2.5">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs font-medium text-slate-200">{symbol}</span>
+                  <span className="text-xs font-medium t-primary">{symbol}</span>
                   <div className="flex items-center gap-1">
                     {info.is_real_data ? (
                       <CheckCircle2 size={10} className="text-emerald-400" />
                     ) : (
                       <AlertCircle size={10} className="text-amber-400" />
                     )}
-                    <span className="text-[10px] text-slate-500">
+                    <span className="text-[10px] t-muted">
                       {info.is_real_data ? 'Live' : 'Sim'}
                     </span>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-slate-500">Price</span>
-                    <div className="text-slate-200 font-mono">${info.price?.toLocaleString() || '-'}</div>
+                    <span className="t-muted">Price</span>
+                    <div className="t-primary font-mono">${info.price?.toLocaleString() || '-'}</div>
                   </div>
                   <div>
-                    <span className="text-slate-500">24h Change</span>
+                    <span className="t-muted">24h Change</span>
                     <div className={`font-mono flex items-center gap-1 ${
                       info.change_24h !== undefined && info.change_24h >= 0
                         ? 'text-emerald-400'
@@ -213,22 +213,22 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
                     </div>
                   </div>
                   <div>
-                    <span className="text-slate-500">Volume</span>
-                    <div className="text-slate-200">{info.volume || '-'}</div>
+                    <span className="t-muted">Volume</span>
+                    <div className="t-primary">{info.volume || '-'}</div>
                   </div>
                   <div>
-                    <span className="text-slate-500">Trend</span>
+                    <span className="t-muted">Trend</span>
                     <div className={`${
                       info.trend === 'bullish' ? 'text-emerald-400' :
                       info.trend === 'bearish' ? 'text-rose-400' :
-                      info.trend === 'volatile' ? 'text-amber-400' : 'text-slate-400'
+                      info.trend === 'volatile' ? 'text-amber-400' : 't-label'
                     }`}>
                       {info.trend || '-'}
                     </div>
                   </div>
                 </div>
                 {info.source && (
-                  <div className="flex items-center gap-1 mt-1.5 text-[10px] text-slate-600">
+                  <div className="flex items-center gap-1 mt-1.5 text-[10px] t-faint">
                     <Clock size={8} />
                     {info.last_updated}
                   </div>
@@ -246,7 +246,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
             {Object.entries(newsData).map(([symbol, info]: [string, any]) => (
               <div key={symbol} className="glass-card-inner p-2.5">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-slate-200">{symbol}</span>
+                  <span className="text-xs font-medium t-primary">{symbol}</span>
                   <span className={`text-xs px-2 py-0.5 rounded ${
                     info.sentiment === 'bullish' ? 'bg-emerald-500/20 text-emerald-400' :
                     info.sentiment === 'bearish' ? 'bg-rose-500/20 text-rose-400' :
@@ -258,20 +258,20 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
                 <div className="flex items-center gap-4 text-xs">
                   <div className="flex items-center gap-1">
                     <TrendingUp size={10} className="text-emerald-400" />
-                    <span className="text-slate-500">Bullish:</span>
+                    <span className="t-muted">Bullish:</span>
                     <span className="text-emerald-400 font-mono">{info.bullish_signals || 0}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <TrendingDown size={10} className="text-rose-400" />
-                    <span className="text-slate-500">Bearish:</span>
+                    <span className="t-muted">Bearish:</span>
                     <span className="text-rose-400 font-mono">{info.bearish_signals || 0}</span>
                   </div>
                 </div>
                 {info.headlines && info.headlines.length > 0 && (
-                  <div className="mt-2 pt-2 border-t border-slate-700/20">
-                    <div className="text-[10px] text-slate-500 mb-1">Latest Headlines:</div>
+                  <div className="mt-2 pt-2 border-t border-divider">
+                    <div className="text-[10px] t-muted mb-1">Latest Headlines:</div>
                     {info.headlines.slice(0, 3).map((h: string, i: number) => (
-                      <div key={i} className="text-[10px] text-slate-400 line-clamp-1">{h}</div>
+                      <div key={i} className="text-[10px] t-label line-clamp-1">{h}</div>
                     ))}
                   </div>
                 )}
@@ -288,11 +288,11 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="glass-card-inner p-2">
-                <span className="text-slate-500">Expected Return</span>
+                <span className="t-muted">Expected Return</span>
                 <div className="text-emerald-400 font-mono text-sm">{portfolio.expected_return || '-'}</div>
               </div>
               <div className="glass-card-inner p-2">
-                <span className="text-slate-500">Risk Level</span>
+                <span className="t-muted">Risk Level</span>
                 <div className={`${
                   portfolio.risk_level === 'low' ? 'text-emerald-400' :
                   portfolio.risk_level === 'high' ? 'text-rose-400' : 'text-amber-400'
@@ -302,12 +302,12 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
               </div>
             </div>
             <div>
-              <div className="text-xs text-slate-500 mb-2">Allocation</div>
+              <div className="text-xs t-muted mb-2">Allocation</div>
               <div className="space-y-1.5">
                 {Object.entries(allocation).map(([asset, details]: [string, any]) => (
                   <div key={asset} className="flex items-center gap-2">
-                    <span className="text-xs text-slate-300 w-8">{asset}</span>
-                    <div className="flex-1 h-2 rounded-full bg-slate-700/50 overflow-hidden">
+                    <span className="text-xs t-secondary w-8">{asset}</span>
+                    <div className="flex-1 h-2 rounded-full bg-card-inner overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${details.percentage || 0}%` }}
@@ -319,7 +319,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
                         }`}
                       />
                     </div>
-                    <span className="text-xs text-slate-400 w-16 text-right">{details.percentage || 0}%</span>
+                    <span className="text-xs t-label w-16 text-right">{details.percentage || 0}%</span>
                   </div>
                 ))}
               </div>
@@ -333,7 +333,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
           <div className="space-y-3">
             {data.action && (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-500">Decision:</span>
+                <span className="text-xs t-muted">Decision:</span>
                 <span className={`text-xs font-medium px-2 py-1 rounded ${
                   data.action === 'invest' ? 'bg-emerald-500/20 text-emerald-400' :
                   data.action === 'avoid' ? 'bg-rose-500/20 text-rose-400' :
@@ -345,8 +345,8 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
             )}
             {data.confidence !== undefined && (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-500">Confidence:</span>
-                <div className="flex-1 h-1.5 rounded-full bg-slate-700/50">
+                <span className="text-xs t-muted">Confidence:</span>
+                <div className="flex-1 h-1.5 rounded-full bg-card-inner">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${data.confidence * 100}%` }}
@@ -367,14 +367,14 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
         return (
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs">
-              <Wallet size={12} className="text-slate-500" />
-              <span className="text-slate-400">Wallet:</span>
-              <span className="text-slate-200 font-mono">{web3.wallet_address || '-'}</span>
+              <Wallet size={12} className="t-muted" />
+              <span className="t-label">Wallet:</span>
+              <span className="t-primary font-mono">{web3.wallet_address || '-'}</span>
             </div>
 
             <div className="flex items-center gap-2 text-xs">
-              <Fuel size={12} className="text-slate-500" />
-              <span className="text-slate-400">Total Gas:</span>
+              <Fuel size={12} className="t-muted" />
+              <span className="t-label">Total Gas:</span>
               <span className="text-amber-400 font-mono">{web3.total_gas || '-'}</span>
             </div>
 
@@ -387,7 +387,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
 
             {web3.transactions && web3.transactions.length > 0 && (
               <div>
-                <div className="text-xs text-slate-500 mb-2">Simulated Transactions:</div>
+                <div className="text-xs t-muted mb-2">Simulated Transactions:</div>
                 <div className="space-y-1.5">
                   {web3.transactions.map((tx: any, i: number) => (
                     <div key={i} className="glass-card-inner p-2 text-xs">
@@ -396,17 +396,17 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
                         <span className="text-emerald-400">{tx.status}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-slate-500">{tx.from_token}</span>
-                        <span className="text-slate-600">→</span>
-                        <span className="text-slate-200">{tx.to_token}</span>
+                        <span className="t-muted">{tx.from_token}</span>
+                        <span className="t-faint">→</span>
+                        <span className="t-primary">{tx.to_token}</span>
                       </div>
                       <div className="flex items-center gap-3 mt-1">
-                        <span className="text-slate-400">${tx.from_amount_usd}</span>
-                        <span className="text-slate-400">≈ {tx.to_amount_token} {tx.to_token}</span>
+                        <span className="t-label">${tx.from_amount_usd}</span>
+                        <span className="t-label">≈ {tx.to_amount_token} {tx.to_token}</span>
                       </div>
                       <div className="flex items-center gap-1 mt-1">
-                        <Hash size={8} className="text-slate-500" />
-                        <span className="text-[10px] text-slate-500 font-mono">{tx.tx_hash}</span>
+                        <Hash size={8} className="t-muted" />
+                        <span className="text-[10px] t-muted font-mono">{tx.tx_hash}</span>
                       </div>
                     </div>
                   ))}
@@ -417,15 +417,15 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
             {web3.defi_yield && (
               <div className="glass-card-inner p-2.5">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-slate-200">DeFi Yield</span>
+                  <span className="text-xs font-medium t-primary">DeFi Yield</span>
                   <span className="text-xs text-emerald-400">{web3.defi_yield.apy}</span>
                 </div>
                 <div className="flex items-center gap-4 text-xs">
-                  <span className="text-slate-500">Protocol:</span>
-                  <span className="text-slate-300">{web3.defi_yield.protocol}</span>
+                  <span className="t-muted">Protocol:</span>
+                  <span className="t-secondary">{web3.defi_yield.protocol}</span>
                 </div>
                 <div className="flex items-center gap-4 text-xs mt-1">
-                  <span className="text-slate-500">Projected Annual:</span>
+                  <span className="t-muted">Projected Annual:</span>
                   <span className="text-emerald-400 font-mono">${web3.defi_yield.projected_annual_return}</span>
                 </div>
               </div>
@@ -433,12 +433,12 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
 
             {web3.new_wallet_state && (
               <div>
-                <div className="text-xs text-slate-500 mb-2">Wallet State:</div>
+                <div className="text-xs t-muted mb-2">Wallet State:</div>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(web3.new_wallet_state).map(([token, amount]: [string, any]) => (
                     <div key={token} className="glass-card-inner p-2 text-xs">
-                      <span className="text-slate-400">{token}</span>
-                      <div className="text-slate-200 font-mono">{amount}</div>
+                      <span className="t-label">{token}</span>
+                      <div className="t-primary font-mono">{amount}</div>
                     </div>
                   ))}
                 </div>
@@ -450,7 +450,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
 
       default:
         return (
-          <pre className="text-xs text-slate-400 font-mono whitespace-pre-wrap break-words max-h-[200px] overflow-y-auto">
+          <pre className="text-xs t-label font-mono whitespace-pre-wrap break-words max-h-[200px] overflow-y-auto">
             {JSON.stringify(data, null, 2)}
           </pre>
         );
@@ -462,9 +462,9 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
       <div className="glass-card p-4 mb-3">
         <div className="flex items-center gap-2 mb-1">
           <Brain size={18} className="text-cyan-400" />
-          <h2 className="text-sm font-semibold text-slate-200">{t.agent.pipelineTitle}</h2>
+          <h2 className="text-sm font-semibold t-primary">{t.agent.pipelineTitle}</h2>
         </div>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs t-muted">
           {isRunning
             ? t.agent.processing
             : steps.length > 0
@@ -480,10 +480,10 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
               animate={{ opacity: [0.3, 0.6, 0.3] }}
               transition={{ repeat: Infinity, duration: 3 }}
             >
-              <Cpu size={40} className="text-slate-600 mb-4" />
+              <Cpu size={40} className="t-faint mb-4" />
             </motion.div>
-            <p className="text-sm text-slate-500">{t.agent.waitingTitle}</p>
-            <p className="text-xs text-slate-600 mt-1">{t.agent.waitingDesc}</p>
+            <p className="text-sm t-muted">{t.agent.waitingTitle}</p>
+            <p className="text-xs t-faint mt-1">{t.agent.waitingDesc}</p>
           </div>
         )}
 
@@ -505,7 +505,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
                           ? 'step-line-animated'
                           : step.status === 'completed'
                           ? 'bg-emerald-500/30'
-                          : 'bg-slate-700/30'
+                          : 'bg-card-inner'
                       }`}
                     />
                   </div>
@@ -530,7 +530,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
                           ? 'bg-emerald-500/10'
                           : step.status === 'error'
                           ? 'bg-rose-500/10'
-                          : 'bg-slate-800/40'
+                          : 'bg-card-inner'
                       }`}
                     >
                       <Icon
@@ -542,18 +542,18 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
                             ? 'text-emerald-400'
                             : step.status === 'error'
                             ? 'text-rose-400'
-                            : 'text-slate-500'
+                            : 't-muted'
                         }
                       />
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-slate-200">{STEP_LABELS[step.step] || step.step}</span>
+                        <span className="text-sm font-medium t-primary">{STEP_LABELS[step.step] || step.step}</span>
                         {getStatusIcon(step.status)}
                       </div>
                       {step.status === 'running' && (
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs t-muted mt-0.5">
                           {STEP_DESCRIPTIONS[step.step] || 'Processing...'}
                         </p>
                       )}
@@ -563,7 +563,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
                     </div>
 
                     {hasData && (
-                      <div className="shrink-0 text-slate-500">
+                      <div className="shrink-0 t-muted">
                         {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                       </div>
                     )}
@@ -578,7 +578,7 @@ const AgentPanel: React.FC<AgentPanelProps> = ({ steps, isRunning }) => {
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                       >
-                        <div className="mt-3 pt-3 border-t border-slate-700/20">
+                        <div className="mt-3 pt-3 border-t border-divider">
                           {renderStepDetail(step.step, step.data)}
                         </div>
                       </motion.div>

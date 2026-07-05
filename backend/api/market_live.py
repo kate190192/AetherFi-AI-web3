@@ -1,5 +1,6 @@
+import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
 from fastapi import APIRouter, HTTPException
@@ -8,6 +9,21 @@ from schemas.models import MarketOverviewResponse
 from core.settings_store import get_settings
 
 router = APIRouter(prefix="/market", tags=["market"])
+
+# ── 内存缓存 ──────────────────────────────────────────────────
+_cache: Dict[str, Tuple[float, Any]] = {}
+_CACHE_TTL = 30  # 秒
+
+
+def _get_cached(key: str) -> Optional[Any]:
+    entry = _cache.get(key)
+    if entry and (time.time() - entry[0]) < _CACHE_TTL:
+        return entry[1]
+    return None
+
+
+def _set_cached(key: str, value: Any) -> None:
+    _cache[key] = (time.time(), value)
 
 
 def _get_urls():
@@ -30,7 +46,7 @@ async def _fetch_coingecko_data(endpoint: str, params: Dict[str, Any] = None) ->
     headers = {}
     if urls["coingecko_key"]:
         headers["x-cg-demo-api-key"] = urls["coingecko_key"]
-    async with httpx.AsyncClient(timeout=15, headers=headers) as client:
+    async with httpx.AsyncClient(timeout=8, headers=headers) as client:
         try:
             response = await client.get(url, params=params)
             response.raise_for_status()
@@ -534,8 +550,12 @@ async def get_24hr_ticker(symbol: str):
 
 @router.get("/dashboard", response_model=Dict[str, Any])
 async def get_market_dashboard():
-    """获取完整市场仪表盘数据（合并 CoinGecko + Binance）"""
+    """获取完整市场仪表盘数据（合并 CoinGecko + Binance），带30秒缓存"""
     import asyncio
+
+    cached = _get_cached("dashboard")
+    if cached is not None:
+        return cached
 
     symbols_info = {
         "BTC": {"id": "bitcoin", "binance": "BTCUSDT"},
@@ -578,7 +598,6 @@ async def get_market_dashboard():
     binance_tickers = {sym: ticker for sym, ticker in binance_results}
 
     if not cg_data:
-        import random
         mock_prices = {
             "BTC": {"name": "Bitcoin", "price": 67500, "c1h": 1.8, "c24h": 2.5, "c7d": 8.3, "c30d": 15.2, "vol": 28_500_000_000, "mcap": 1_320_000_000_000, "high": 68200, "low": 66800, "supply": 19_600_000},
             "ETH": {"name": "Ethereum", "price": 3450, "c1h": -1.2, "c24h": 3.1, "c7d": 5.6, "c30d": 12.8, "vol": 15_200_000_000, "mcap": 415_000_000_000, "high": 3520, "low": 3380, "supply": 120_200_000},
@@ -594,11 +613,11 @@ async def get_market_dashboard():
             cg_data.append({
                 "symbol": sym.lower(),
                 "name": info["name"],
-                "current_price": info["price"] * (1 + random.uniform(-0.01, 0.01)),
-                "price_change_percentage_1h": info["c1h"] + random.uniform(-0.3, 0.3),
-                "price_change_percentage_24h": info["c24h"] + random.uniform(-0.5, 0.5),
-                "price_change_percentage_7d": info["c7d"] + random.uniform(-1, 1),
-                "price_change_percentage_30d": info["c30d"] + random.uniform(-2, 2),
+                "current_price": info["price"],
+                "price_change_percentage_1h": info["c1h"],
+                "price_change_percentage_24h": info["c24h"],
+                "price_change_percentage_7d": info["c7d"],
+                "price_change_percentage_30d": info["c30d"],
                 "total_volume": info["vol"],
                 "market_cap": info["mcap"],
                 "high_24h": info["high"],
@@ -637,7 +656,6 @@ async def get_market_dashboard():
     eth = coins.get("ETH", {})
 
     if not coins:
-        import random
         mock_coins = {
             "BTC": {"name": "Bitcoin", "price": 67500, "c1h": 1.8, "c24h": 2.5, "c7d": 8.3, "c30d": 15.2, "vol": 28_500_000_000, "mcap": 1_320_000_000_000, "high": 68200, "low": 66800, "supply": 19_600_000},
             "ETH": {"name": "Ethereum", "price": 3450, "c1h": -1.2, "c24h": 3.1, "c7d": 5.6, "c30d": 12.8, "vol": 15_200_000_000, "mcap": 415_000_000_000, "high": 3520, "low": 3380, "supply": 120_200_000},
@@ -651,11 +669,11 @@ async def get_market_dashboard():
         for sym, info in mock_coins.items():
             coins[sym] = {
                 "name": info["name"],
-                "price": info["price"] * (1 + random.uniform(-0.01, 0.01)),
-                "price_change_1h": info["c1h"] + random.uniform(-0.3, 0.3),
-                "price_change_24h": info["c24h"] + random.uniform(-0.5, 0.5),
-                "price_change_7d": info["c7d"] + random.uniform(-1, 1),
-                "price_change_30d": info["c30d"] + random.uniform(-2, 2),
+                "price": info["price"],
+                "price_change_1h": info["c1h"],
+                "price_change_24h": info["c24h"],
+                "price_change_7d": info["c7d"],
+                "price_change_30d": info["c30d"],
                 "market_cap": info["mcap"],
                 "volume_24h": info["vol"],
                 "high_24h": info["high"],
@@ -685,7 +703,7 @@ async def get_market_dashboard():
     else:
         trend = "neutral"
 
-    return {
+    result = {
         "coins": coins,
         "total_market_cap": total_market_cap,
         "btc_dominance": btc_dominance,
@@ -693,6 +711,8 @@ async def get_market_dashboard():
         "market_trend": trend,
         "data_sources": ["CoinGecko", "Binance"],
     }
+    _set_cached("dashboard", result)
+    return result
 
 
 async def _fetch_coingecko_list(endpoint: str, params: Dict[str, Any] = None) -> List[Any]:

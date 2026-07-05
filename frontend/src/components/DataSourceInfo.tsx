@@ -72,8 +72,8 @@ const DataSourceInfo: React.FC<DataSourceInfoProps> = ({
       default:
         return {
           icon: AlertTriangle,
-          color: 'text-slate-400',
-          bg: 'bg-slate-500/10 border-slate-500/20',
+          color: 't-label',
+          bg: 'bg-[var(--c-500)]/10 border-[var(--c-500)]/20',
           label: lang === 'zh' ? '未知' : 'Unknown',
         };
     }
@@ -103,7 +103,7 @@ const DataSourceInfo: React.FC<DataSourceInfoProps> = ({
 
       <div className="flex items-center gap-2 mb-3">
         <Database size={14} className="text-blue-400" />
-        <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+        <span className="text-xs font-medium t-label uppercase tracking-wider">
           {t.dataSource.title}
         </span>
         {/* 整体质量标签 */}
@@ -120,8 +120,8 @@ const DataSourceInfo: React.FC<DataSourceInfoProps> = ({
         <div className="glass-card-inner p-3">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <Globe size={12} className="text-slate-500" />
-              <span className="text-xs text-slate-400">
+              <Globe size={12} className="t-muted" />
+              <span className="text-xs t-label">
                 {t.dataSource.marketData}
               </span>
             </div>
@@ -138,8 +138,8 @@ const DataSourceInfo: React.FC<DataSourceInfoProps> = ({
           </div>
 
           <div className="flex items-center gap-2 text-xs">
-            <Link2 size={10} className="text-slate-500" />
-            <span className="text-slate-300 font-mono">{marketDataSource}</span>
+            <Link2 size={10} className="t-muted" />
+            <span className="t-secondary font-mono">{marketDataSource}</span>
             {marketDataUrl && (
               <a
                 href={marketDataUrl}
@@ -153,7 +153,7 @@ const DataSourceInfo: React.FC<DataSourceInfoProps> = ({
           </div>
 
           {marketData && Object.values(marketData)[0]?.last_updated && (
-            <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
+            <div className="flex items-center gap-2 text-xs t-muted mt-1">
               <Clock size={10} />
               <span>
                 {lang === 'zh' ? '更新时间: ' : 'Updated: '}
@@ -164,7 +164,7 @@ const DataSourceInfo: React.FC<DataSourceInfoProps> = ({
 
           {/* 各币种数据来源明细 */}
           {marketData && Object.keys(marketData).length > 0 && (
-            <div className="mt-2 pt-2 border-t border-slate-700/20">
+            <div className="mt-2 pt-2 border-t border-divider">
               <div className="flex flex-wrap gap-1.5">
                 {Object.entries(marketData).map(([sym, data]: [string, any]) => (
                   <span
@@ -183,8 +183,8 @@ const DataSourceInfo: React.FC<DataSourceInfoProps> = ({
             </div>
           )}
 
-          <div className="mt-2 pt-2 border-t border-slate-700/20">
-            <p className="text-[10px] text-slate-600">
+          <div className="mt-2 pt-2 border-t border-divider">
+            <p className="text-[10px] t-faint">
               {lang === 'zh'
                 ? '价格数据来自 CoinGecko 免费 API，包含实时价格、24h涨跌幅、市值等。'
                 : 'Price data from CoinGecko free API, includes real-time price, 24h change, market cap.'}
@@ -196,8 +196,8 @@ const DataSourceInfo: React.FC<DataSourceInfoProps> = ({
         <div className="glass-card-inner p-3">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <Cpu size={12} className="text-slate-500" />
-              <span className="text-xs text-slate-400">
+              <Cpu size={12} className="t-muted" />
+              <span className="text-xs t-label">
                 {lang === 'zh' ? 'Web3 交易' : 'Web3 Transaction'}
               </span>
             </div>
@@ -223,14 +223,14 @@ const DataSourceInfo: React.FC<DataSourceInfoProps> = ({
           )}
 
           {dataSource && (
-            <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
+            <div className="flex items-center gap-2 text-xs t-muted mt-1">
               <Database size={10} />
               <span>{dataSource}</span>
             </div>
           )}
 
-          <div className="mt-2 pt-2 border-t border-slate-700/20">
-            <p className="text-[10px] text-slate-600">
+          <div className="mt-2 pt-2 border-t border-divider">
+            <p className="text-[10px] t-faint">
               {lang === 'zh'
                 ? '交易执行器支持模拟模式和真实链上模式切换。当前为模拟模式，价格来自 CoinGecko 实时 API。切换到真实模式需配置私钥和 RPC 节点。'
                 : 'Transaction executor supports simulated and real on-chain modes. Currently in simulation mode, prices from CoinGecko real-time API. Switching to real mode requires private key and RPC node configuration.'}
