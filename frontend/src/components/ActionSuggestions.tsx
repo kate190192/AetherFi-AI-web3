@@ -21,7 +21,7 @@ interface ActionSuggestionsProps {
 }
 
 const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [suggestions, setSuggestions] = useState<MarketSuggestionsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,18 +29,18 @@ const ActionSuggestions: React.FC<ActionSuggestionsProps> = ({ onActionClick }) 
 
   const fetchSuggestions = useCallback(async () => {
     try {
-      const data = await getMarketSuggestions();
+      const data = await getMarketSuggestions(lang);
       setSuggestions(data);
       setError(null);
     } catch (err) {
       console.log('API unavailable, using mock suggestions');
       setSuggestions({
         suggestions: [
-          { type: 'buy', symbol: 'BTC', name: 'Bitcoin', price: 67890, change_1h: 1.2, change_24h: 2.34, reason: '1小时涨幅 1.20%，短期看涨动能强', priority: 'high' },
-          { type: 'sell', symbol: 'ETH', name: 'Ethereum', price: 3456, change_1h: -0.8, change_24h: -1.23, reason: '1小时跌幅 0.80%，短期看跌风险', priority: 'high' },
-          { type: 'watch', symbol: 'SOL', name: 'Solana', price: 178.9, change_24h: 5.67, reason: '24小时涨幅 5.67%，关注追涨机会', priority: 'medium' },
-          { type: 'buy_low', symbol: 'DOGE', name: 'Dogecoin', price: 0.1234, change_24h: -8.9, reason: '24小时跌幅 8.90%，可能存在抄底机会', priority: 'medium' },
-          { type: 'watch', symbol: 'XRP', name: 'Ripple', price: 0.52, change_24h: 1.5, reason: '高交易量，市场活跃', priority: 'low' },
+          { type: 'buy', symbol: 'BTC', name: 'Bitcoin', price: 67890, change_1h: 1.2, change_24h: 2.34, reason: '1h +1.20%, strong momentum', priority: 'high' },
+          { type: 'sell', symbol: 'ETH', name: 'Ethereum', price: 3456, change_1h: -0.8, change_24h: -1.23, reason: '1h -0.80%, short-term risk', priority: 'high' },
+          { type: 'watch', symbol: 'SOL', name: 'Solana', price: 178.9, change_24h: 5.67, reason: '24h +5.67%, watch for entry', priority: 'medium' },
+          { type: 'buy_low', symbol: 'DOGE', name: 'Dogecoin', price: 0.1234, change_24h: -8.9, reason: '24h -8.90%, potential dip buy', priority: 'medium' },
+          { type: 'watch', symbol: 'XRP', name: 'Ripple', price: 0.52, change_24h: 1.5, reason: 'High volume, active market', priority: 'low' },
         ],
         trending_up: [
           { symbol: 'SOL', name: 'Solana', change: 5.67 },

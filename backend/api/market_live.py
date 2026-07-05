@@ -243,8 +243,8 @@ async def get_trending_coins():
 
 
 @router.get("/suggestions", response_model=Dict[str, Any])
-async def get_market_suggestions():
-    """根据市场数据智能生成交易建议"""
+async def get_market_suggestions(lang: str = "zh"):
+    """根据市场数据智能生成交易建议，支持中英文"""
     try:
         data = await _fetch_coingecko_data("/coins/markets", {
             "vs_currency": "usd",
@@ -258,7 +258,6 @@ async def get_market_suggestions():
         data = []
 
     if not data:
-        import random
         mock_coins = [
             ("BTC", "Bitcoin", 67500, 1.8, 2.5, 8.3, 15.2, 28_500_000_000, 1_320_000_000_000, 1),
             ("ETH", "Ethereum", 3450, -1.2, 3.1, 5.6, 12.8, 15_200_000_000, 415_000_000_000, 2),
@@ -276,11 +275,11 @@ async def get_market_suggestions():
             data.append({
                 "symbol": sym.lower(),
                 "name": name,
-                "current_price": price + random.uniform(-price*0.01, price*0.01),
-                "price_change_percentage_1h": c1h + random.uniform(-0.5, 0.5),
-                "price_change_percentage_24h": c24h + random.uniform(-1, 1),
-                "price_change_percentage_7d": c7d + random.uniform(-2, 2),
-                "price_change_percentage_30d": c30d + random.uniform(-3, 3),
+                "current_price": price,
+                "price_change_percentage_1h": c1h,
+                "price_change_percentage_24h": c24h,
+                "price_change_percentage_7d": c7d,
+                "price_change_percentage_30d": c30d,
                 "total_volume": vol,
                 "market_cap": mcap,
                 "market_cap_rank": rank,
@@ -289,6 +288,7 @@ async def get_market_suggestions():
     suggestions = []
     trending_up = []
     trending_down = []
+    is_zh = lang.startswith("zh")
 
     for item in data:
         symbol = item.get("symbol", "").upper()
@@ -309,80 +309,50 @@ async def get_market_suggestions():
 
         # 高优先级：1小时大幅波动
         if change_1h > 3:
-            suggestions.append({
-                "type": "buy",
-                "symbol": symbol,
-                "name": name,
-                "price": price,
-                "change_1h": change_1h,
-                "change_24h": change_24h,
-                "reason": f"1小时涨幅 {change_1h:.2f}%，短期动能强劲；24h涨 {change_24h:.1f}%，趋势向上",
-                "priority": "high",
-            })
+            if is_zh:
+                reason = f"1小时涨 {change_1h:.2f}%，短期动能强劲；24h 涨 {change_24h:.1f}%，趋势向上"
+            else:
+                reason = f"1h +{change_1h:.2f}%, strong short-term momentum; 24h +{change_24h:.1f}%, upward trend"
+            suggestions.append({"type": "buy", "symbol": symbol, "name": name, "price": price, "change_1h": change_1h, "change_24h": change_24h, "reason": reason, "priority": "high"})
         elif change_1h < -3:
-            suggestions.append({
-                "type": "sell",
-                "symbol": symbol,
-                "name": name,
-                "price": price,
-                "change_1h": change_1h,
-                "change_24h": change_24h,
-                "reason": f"1小时跌幅 {change_1h:.2f}%，短期抛压明显；建议观望或减仓",
-                "priority": "high",
-            })
+            if is_zh:
+                reason = f"1小时跌 {change_1h:.2f}%，短期抛压明显；建议观望或减仓"
+            else:
+                reason = f"1h {change_1h:.2f}%, clear selling pressure; consider reducing or waiting"
+            suggestions.append({"type": "sell", "symbol": symbol, "name": name, "price": price, "change_1h": change_1h, "change_24h": change_24h, "reason": reason, "priority": "high"})
         # 中优先级：24小时大幅波动 + 量价分析
         elif change_24h > 10 and volume > 500_000_000:
-            suggestions.append({
-                "type": "watch",
-                "symbol": symbol,
-                "name": name,
-                "price": price,
-                "change_24h": change_24h,
-                "reason": f"24h涨 {change_24h:.1f}% 且交易量活跃（${volume/1e9:.2f}B），放量上涨值得关注",
-                "priority": "medium",
-            })
+            if is_zh:
+                reason = f"24h涨 {change_24h:.1f}% 且放量（${volume/1e9:.2f}B），上涨趋势确认"
+            else:
+                reason = f"24h +{change_24h:.1f}% with high volume (${volume/1e9:.2f}B), uptrend confirmed"
+            suggestions.append({"type": "watch", "symbol": symbol, "name": name, "price": price, "change_24h": change_24h, "reason": reason, "priority": "medium"})
         elif change_24h < -10 and volume > 500_000_000:
-            suggestions.append({
-                "type": "buy_low",
-                "symbol": symbol,
-                "name": name,
-                "price": price,
-                "change_24h": change_24h,
-                "reason": f"24h跌 {change_24h:.1f}% 但交易量放大（${volume/1e9:.2f}B），恐慌性抛售可能出现超跌反弹",
-                "priority": "medium",
-            })
+            if is_zh:
+                reason = f"24h跌 {change_24h:.1f}% 但放量（${volume/1e9:.2f}B），超跌反弹机会"
+            else:
+                reason = f"24h {change_24h:.1f}% with high volume (${volume/1e9:.2f}B), potential oversold bounce"
+            suggestions.append({"type": "buy_low", "symbol": symbol, "name": name, "price": price, "change_24h": change_24h, "reason": reason, "priority": "medium"})
         # 中优先级：7日趋势 + 30日对比
         elif change_7d > 20 and change_30d > 0:
-            suggestions.append({
-                "type": "watch",
-                "symbol": symbol,
-                "name": name,
-                "price": price,
-                "change_24h": change_24h,
-                "reason": f"7日涨 {change_7d:.1f}%，中线趋势向上；30日整体涨 {change_30d:.1f}%，持续走强",
-                "priority": "medium",
-            })
+            if is_zh:
+                reason = f"7日涨 {change_7d:.1f}%，中线趋势向上；30日整体涨 {change_30d:.1f}%"
+            else:
+                reason = f"7d +{change_7d:.1f}%, mid-term uptrend; 30d +{change_30d:.1f}%, sustained strength"
+            suggestions.append({"type": "watch", "symbol": symbol, "name": name, "price": price, "change_24h": change_24h, "reason": reason, "priority": "medium"})
         elif change_7d < -15 and change_30d > -5:
-            suggestions.append({
-                "type": "buy_low",
-                "symbol": symbol,
-                "name": name,
-                "price": price,
-                "change_24h": change_24h,
-                "reason": f"7日跌 {change_7d:.1f}% 但30日仅跌 {change_30d:.1f}%，中期仍在支撑位上方，回调可能是机会",
-                "priority": "medium",
-            })
+            if is_zh:
+                reason = f"7日跌 {change_7d:.1f}% 但30日仅跌 {change_30d:.1f}%，回调支撑位附近"
+            else:
+                reason = f"7d {change_7d:.1f}% but 30d only {change_30d:.1f}%, near support level"
+            suggestions.append({"type": "buy_low", "symbol": symbol, "name": name, "price": price, "change_24h": change_24h, "reason": reason, "priority": "medium"})
         # 低优先级：高市值稳定币种 + 高交易量
         elif rank <= 10 and abs(change_24h) < 2 and volume > 1_000_000_000:
-            suggestions.append({
-                "type": "watch",
-                "symbol": symbol,
-                "name": name,
-                "price": price,
-                "change_24h": change_24h,
-                "reason": f"市值Top{rank}，24h波动仅 {abs(change_24h):.1f}%，高交易量（${volume/1e9:.2f}B）表明市场关注度高",
-                "priority": "low",
-            })
+            if is_zh:
+                reason = f"市值Top{rank}，波动小（{abs(change_24h):.1f}%），高交易量（${volume/1e9:.2f}B），适合稳健配置"
+            else:
+                reason = f"Top {rank} by market cap, low volatility ({abs(change_24h):.1f}%), high volume (${volume/1e9:.2f}B), stable for allocation"
+            suggestions.append({"type": "watch", "symbol": symbol, "name": name, "price": price, "change_24h": change_24h, "reason": reason, "priority": "low"})
 
     btc = next((item for item in data if item.get("symbol", "").upper() == "BTC"), None)
     eth = next((item for item in data if item.get("symbol", "").upper() == "ETH"), None)

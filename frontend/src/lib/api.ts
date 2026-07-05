@@ -235,8 +235,8 @@ export async function getMarketTrending(): Promise<{ coins: any[]; count: number
   return response.json();
 }
 
-export async function getMarketSuggestions(): Promise<MarketSuggestionsResponse> {
-  const response = await fetch(`${API_BASE}/market/suggestions`);
+export async function getMarketSuggestions(lang: string = 'zh'): Promise<MarketSuggestionsResponse> {
+  const response = await fetch(`${API_BASE}/market/suggestions?lang=${lang}`);
   if (!response.ok) throw new Error('Failed to fetch market suggestions');
   return response.json();
 }
