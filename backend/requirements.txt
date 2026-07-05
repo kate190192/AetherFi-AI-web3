@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+langchain-ollama
+langchain-core
+pydantic
+httpx
+python-dotenv
+sse-starlette
+aiosqlite
